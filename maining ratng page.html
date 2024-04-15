@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Page</title>
+    <link rel="icon" href="logo.jpg" type="image/icon type">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        /* Navigation bar styling */
+        nav {
+            background-color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1, nav a {
+            color: #006400;
+        }
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            padding: 0;
+        }
+        nav li {
+            margin-right: 20px;
+        }
+        .feedback-container {
+            padding: 20px;
+            text-align: center;
+        }
+        .rating > label {
+            font-size: 30px;
+            color: #ccc;
+            cursor: pointer;
+        }
+        .rating input {
+            display: none;
+        }
+        .rating input:checked ~ label,
+        .rating input:checked ~ label ~ label {
+            color: #ffcc00;
+        }
+        textarea {
+            margin-top: 20px;
+            width: 60%;
+            height: 100px;
+        }
+        .submit-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #128C7E;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <h1>CARDAMON AND MORE</h1>
+    <ul>
+        <li><a href="index.html" target="_blank">Home</a></li>
+        <li><a href="https://wa.me/919810526620?text=I'm%20interested%20in%20placing%20an%20order" class="whatsapp-order-link" target="_blank">Place Order</a></li>
+        <li><a href="https://www.instagram.com/cardamom_and_more/" target="_blank">Instagram</a></li>
+        <li><a href="https://wa.me/919810526620" target="_blank">Contact</a></li>
+        <li><a href="feedback.html" target="_blank">Rate us</a></li>
+    </ul>
+</nav>
+
+<div class="feedback-container">
+    <h2>Please Rate Us</h2>
+    <div class="rating">
+        <input type="radio" name="star" id="star1"><label for="star1">&#9733;</label>
+        <input type="radio" name="star" id="star2"><label for="star2">&#9733;</label>
+        <input type="radio" name="star" id="star3"><label for="star3">&#9733;</label>
+        <input type="radio" name="star" id="star4"><label for="star4">&#9733;</label>
+        <input type="radio" name="star" id="star5"><label for="star5">&#9733;</label>
+    </div>
+    <textarea id="feedbackText" placeholder="Enter your feedback here..."></textarea>
+    <button class="submit-btn" onclick="sendFeedback()">Submit Feedback</button>
+</div>
+
+<script>
+    function sendFeedback() {
+        var feedback = document.getElementById('feedbackText').value;
+        var whatsappURL = "https://wa.me/919810526620?text=" + encodeURIComponent("I would like to give feedback: " + feedback);
+        window.open(whatsappURL, '_blank').focus();
+    }
+</script>
+
+</body>
+</html>

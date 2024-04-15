@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardamom and More</title>
+    <link rel="icon" href="logo.jpg" type="image/icon type">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Typography and color */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color: #a3ce79;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            color: #a3ce79;
+            font-size: 24px;
+            margin: 0 20px; /* added margin for spacing */
+        }
+
+        nav {
+            background-color: #fff;
+            overflow: hidden; /* Hide the overflowed content */
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 10px;
+            margin: 0;
+            display: none; /* Start with a hidden menu */
+            left: 0;
+            top: 100%;
+            background-color: #fff;
+            width: 100%;
+            z-index: 1;
+            text-align: left;
+        }
+
+        nav ul.active {
+            display: block; /* Show menu when active */
+        }
+
+        nav ul li {
+            position: relative; /* Add position relative for pseudo-element */
+        }
+
+        nav ul li:hover::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%; /* Start from the center */
+            transform: translateX(-50%);
+            width: 0; /* Initially set width to 0 */
+            height: 2px;
+            background-color: #a3ce79;
+            transition: width 0.3s ease; /* Smooth transition */
+        }
+
+        nav ul li:hover::after,
+        nav ul li.active::after { /* To maintain active state */
+            width: calc(100% - 20px); /* Adjusted to make it start from the edges of li */
+        }
+
+        nav a {
+            color: #006400;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .menu-icon {
+            display: block; /* Always show the menu icon */
+            position: relative;
+            top: 5px;
+            left: 10px;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+        .menu-icon div {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px;
+            transition: 0.4s;
+        }
+
+        .menu-icon.open div:first-child {
+            transform: rotate(-45deg) translateY(4px);
+        }
+
+        .menu-icon.open div:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-icon.open div:last-child {
+            transform: rotate(45deg) translateY(-4px);
+        }
+
+        /* Account form styling */
+        .account-tab {
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid #a3ce79;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .account-tab.active {
+            display: block;
+        }
+
+        .account-tab h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .account-tab input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .account-tab button {
+            background-color: #a3ce79;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Product section */
+        .products {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .products h1 {
+            color: #ffd900;
+            margin-bottom: 20px;
+            border: 10px solid #59f02bc5;
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: inline-block; /* Adjusted to inline-block */
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 26.2px;
+        }
+
+        .product-item {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .product-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            opacity: 0.7;
+        }
+
+        .product-checkbox {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .order-button {
+            background-color: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            display: none;
+            cursor: pointer;
+        }
+
+        /* Articles section */
+        .articles {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .articles h1 {
+            color:  #757331;
+            margin-bottom: 20px;
+            border: 10px solid #d0f404c5;
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: inline-block; /* Adjusted to inline-block */
+        }
+
+        .article-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .article-item {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            opacity: 0.7;
+            width: 45%;
+        }
+
+        .article-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            opacity: 0.5;
+        }
+
+        /* WhatsApp chat button */
+        .whatsapp-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 20px 20px 0 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .whatsapp-chat img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .whatsapp-chat a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        /* Media Queries */
+        @media (min-width: 768px) {
+            nav ul {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+
+            .menu-icon {
+                display: none; /* Hide the menu icon on larger screens */
+            }
+
+            header h1 {
+                font-size: 32px; /* Increase font size for desktop */
+            }
+        }
+
+        /* Product Slider Arrows */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            z-index: 1;
+        }
+
+        .arrow.left {
+            left: 10px;
+        }
+
+        .arrow.right {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <h1>CARDAMOM AND MORE</h1>
+                <div class="menu-icon" onclick="toggleMenu()">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <ul>
+                    <li><a href="/index.html" target="_blank">Home</a></li>
+                    <li><a href="#" onclick="toggleOrderButton()">Place Order</a></li>
+                    <li><a href="https://www.instagram.com/cardamom_and_more/" target="_blank">Instagram</a></li>
+                    <li><a href="maining ratng page.html" target="_blank">Rate us</a></li>
+                    <li><a href="#" onclick="toggleAccountTab()">Account</a></li>
+                </ul>
+            </nav>
+            <!-- Account Tab -->
+            <div class="account-tab" id="account-tab">
+                <h2>Create an Account</h2>
+                <form action="https://formspree.io/f/mleqozje" method="POST">
+                    <input type="text" placeholder="Name" name="Name" required>
+                    <input type="tel" placeholder="Phone" name="Phone" required>
+                    <input type="email" placeholder="Email Address" name="_replyto" required>
+                    <input type="text" placeholder="Address" name="Address" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Section -->
+    <div class="products">
+        <h1>Our Products!</h1>
+        <div class="product-grid">
+            <label><div class="product-item" onclick="selectProduct(this)">
+                <img src="haper11111.jpg" alt="Product 1" class="product-photo">
+                <img src="hamper 2........jpg" alt="Product 1" class="product-photo" style="display: none;">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Gift Hamper</h3>
+                <p>contact for price</p>
+                <!-- Arrow buttons -->
+                <div class="arrow left" onclick="prevPhoto(event)">&#10094;</div>
+                <div class="arrow right" onclick="nextPhoto(event)">&#10095;</div>
+            </div></label>
+            <label><div class="product-item">
+                <img src="cardamom.jpg" alt="Product 2">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Cardamom</h3>
+                <p>175rs(50gms)</p>
+            </div></label>
+           <label> <div class="product-item">
+                <img src="premi.......jpg" alt="Product 3">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Premium Cardamom</h3>
+                <p>370rs(50gms)</p>
+            </div></label>
+            <label><div class="product-item">
+                <img src="aroma oil.jpg" alt="Product 4">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Aroma Oil</h3>
+                <p>275rs</p>
+            </div></label>
+           <label> <div class="product-item">
+                <img src="incense sticks.jpg" alt="Product 5">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Incense Sticks</h3>
+                <p>70rs</p>
+            </div></label>
+            <label><div class="product-item">
+                <img src="ccloves.......jpg" alt="Product 6">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Cloves</h3>
+                <p>225rs(100gms)</p>
+            </div></label>
+           <label> <div class="product-item">
+                <img src="cinnamon sticks.jpg" alt="Product 7">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Cinnamon Sticks</h3>
+                <p>175rs(50gms)</p>
+            </div></label>
+            <label><div class="product-item">
+                <img src="mace flower(............javitri)jpg.jpg" alt="Product 8">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Mace Flower</h3>
+                <p>265rs(50gms)</p>
+            </div></label>
+            <label><div class="product-item">
+                <img src="star anise.jpg" alt="Product 9">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Star Anise</h3>
+                <p>175rs(50gms)</p>
+            </div></label>
+           <label> <div class="product-item">
+                <img src="black peepr.jpg" alt="Product 10">
+                <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
+                <h3>Black Pepper</h3>
+                <p>175rs(100gms)</p>
+            </div></label>
+        </div>
+        <div class="order-button" onclick="placeOrder()">Order Now</div>
+    </div>
+
+    <!-- Articles Section -->
+    <div class="articles">
+        <h1>LEARN WITH CARDAMOM</h1>
+        <div class="article-grid">
+            <div class="article-item">
+                <img src="pic1.png" alt="Article 1" style="opacity: 1;">
+                <h3>Kerala-The Home of Spices</h3>
+                <p>Kerala is home to a variety of spices: pepper, vanilla, cardamom, clove, cinnamon, nutmeg, ginger and turmeric. The flavour of spices lingers long in one's tongue and even longer in one's memory. Spices shaped Kerala's tryst with destiny. It was the fragrance of spice that awakened the curiosity of the explorers.Kerala can be termed as the land of spices, considering the large variety of spices grown in the state. Kerala is the largest producer of pepper in India and accounts for a lion's share in India's production. Kerala's spices have a long history that dates back thousands of years. Due to its monopoly on spices, Kerala attained global recognition in ancient times due to the wealth brought into the state. Almost eons ago, Musiri, an old port in Kerala, became the center of the global spice trade.Kerala has secured a favorable position in the global spice market with its variety of spices in terms of both quality & quantity. The climate of Kerala is ideal for the cultivation of wide variety of rich spices.Being bestowed with Kerala as its rich spice bowl, no country in the world produces as many varieties of spices as India.</p>
+            </div>
+            <div class="article-item">
+                <img src="spice-plantation_1024x1024.png" alt="Article 2" style="opacity: 1;">
+                <h3>How are Spices Grown!</h3>
+                <p>Here's a general overview of how spices are grown in Kerala:
+
+                    Climate and Soil: Kerala's tropical climate with high humidity and abundant rainfall provides an ideal environment for spice cultivation. The state's varied topography and soil types also contribute to its suitability for growing different spices.
+                    
+                    Varieties of Spices: Kerala is famous for cultivating a wide range of spices, including black pepper, cardamom, cloves, cinnamon, nutmeg, turmeric, ginger, and vanilla, among others. Each spice has its own specific requirements for growth.
+                    
+                    Cultivation Methods:
+                    
+                    Black Pepper: Black pepper is commonly grown as a climbing vine, typically trained on support structures such as trees or trellises. It requires partial shade and well-drained soil.
+                    Cardamom: Cardamom plants thrive in shady, forest-like conditions with well-drained soil. They are grown under the shade of tall trees, often in terraced plantations.
+                    Cloves: Clove trees prefer warm, humid climates and well-drained soil. They are usually planted from seeds or cuttings and require regular pruning.
+                    Cinnamon: Cinnamon trees are grown in tropical regions with rich, well-drained soil. The inner bark of the tree is harvested and processed to obtain cinnamon.
+                    Turmeric and Ginger: Turmeric and ginger are rhizomatous plants that are propagated by planting rhizomes (underground stems). They require well-drained soil and regular watering.
+                    Nutmeg: Nutmeg trees grow best in warm, humid climates with well-drained soil. They produce fruits containing the nutmeg seed, which is harvested and dried.
+                    Harvesting and Processing: The timing of harvesting varies depending on the spice. For instance, black pepper berries are harvested when they turn red, while cardamom capsules are picked when they are green. After harvesting, spices are processed through various methods such as drying, curing, or grinding to prepare them for consumption or further trade.
+                    
+                    Organic Cultivation: With growing interest in organic farming, many spice growers in Kerala are adopting organic cultivation practices. This involves avoiding synthetic fertilizers and pesticides, promoting biodiversity, and using sustainable farming methods.
+                    
+                    Trade and Export: Kerala's spices are not only consumed domestically but also exported to other states in India and countries around the world. The spice trade has been a significant part of Kerala's economy for centuries, contributing to its cultural heritage and economic prosperity.
+                    
+                    Overall, Kerala's favorable climate, rich soil, and traditional farming practices make it a prime region for the cultivation of a wide variety of spices.
+                    
+                    
+                    
+                    
+                    
+                    
+                    </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Chat Button -->
+    <div class="whatsapp-chat">
+        <img src="whatsapp.jpg" alt="WhatsApp Logo">
+        <a href="https://wa.me/919810526620" target="_blank">Chat</a>
+    </div>
+
+    <!-- JavaScript for toggling menu, account tab, and product photo slider -->
+    <script>
+        function toggleMenu() {
+            var menu = document.querySelector('nav ul');
+            if (menu.classList.contains('active')) {
+                menu.classList.remove('active');
+                document.querySelector('.menu-icon').classList.remove('open');
+            } else {
+                menu.classList.add('active');
+                document.querySelector('.menu-icon').classList.add('open');
+            }
+        }
+    
+        function toggleAccountTab() {
+            var accountTab = document.getElementById('account-tab');
+            if (accountTab.classList.contains('active')) {
+                accountTab.classList.remove('active');
+            } else {
+                accountTab.classList.add('active');
+            }
+        }
+    
+        function toggleOrderButton() {
+            var checkboxes = document.querySelectorAll('.product-checkbox');
+            var orderButton = document.querySelector('.order-button');
+            var checked = false;
+            checkboxes.forEach(function (checkbox) {
+                if (checkbox.checked) {
+                    checked = true;
+                }
+            });
+            if (checked) {
+                orderButton.style.display = 'block';
+            } else {
+                orderButton.style.display = 'none';
+            }
+        }
+    
+        function placeOrder() {
+            var products = [];
+            var checkboxes = document.querySelectorAll('.product-checkbox');
+            checkboxes.forEach(function (checkbox) {
+                if (checkbox.checked) {
+                    products.push(checkbox.parentElement.querySelector('h3').textContent);
+                }
+            });
+            var message = "Order: " + products.join(", ");
+            var whatsappLink = "https://wa.me/919810526620?text=" + encodeURIComponent(message);
+            window.location.href = whatsappLink;
+        }
+    
+        // Product photo slider
+        var currentPhotoIndex = 0;
+        var productPhotos = document.querySelectorAll('.product-photo');
+    
+        function showPhoto(index) {
+            productPhotos.forEach(function (photo) {
+                photo.style.display = 'none';
+            });
+            productPhotos[index].style.display = 'block';
+            currentPhotoIndex = index;
+        }
+    
+        function nextPhoto(event) {
+            event.stopPropagation(); // Prevent event from bubbling up to the container
+            currentPhotoIndex = (currentPhotoIndex + 1) % productPhotos.length;
+            showPhoto(currentPhotoIndex);
+        }
+    
+        function prevPhoto(event) {
+            event.stopPropagation(); // Prevent event from bubbling up to the container
+            currentPhotoIndex = (currentPhotoIndex - 1 + productPhotos.length) % productPhotos.length;
+            showPhoto(currentPhotoIndex);
+        }
+    
+        showPhoto(currentPhotoIndex); // Display the first photo initially
+    </script>
+    
+</body>
+</html>
