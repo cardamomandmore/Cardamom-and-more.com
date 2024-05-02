@@ -57,28 +57,10 @@
             position: relative; /* Add position relative for pseudo-element */
         }
 
-        nav ul li:hover::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%; /* Start from the center */
-            transform: translateX(-50%);
-            width: 0; /* Initially set width to 0 */
-            height: 2px;
-            background-color: #a3ce79;
-            transition: width 0.3s ease; /* Smooth transition */
-        }
+      
+      
 
-        nav ul li:hover::after,
-        nav ul li.active::after { /* To maintain active state */
-            width: calc(100% - 20px); /* Adjusted to make it start from the edges of li */
-        }
-
-        nav a {
-            color: #006400;
-            text-decoration: none;
-            font-size: 18px;
-        }
+       
 
         .menu-icon {
             display: block; /* Always show the menu icon */
