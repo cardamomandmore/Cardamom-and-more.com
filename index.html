@@ -56,6 +56,33 @@
         nav ul li {
             position: relative; /* Add position relative for pseudo-element */
         }
+        nav a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+       #a::after{ 
+            content: '';
+            background-color: black;
+            position: absolute;
+            top: 17px;
+            left:0.5px;
+            width: 100%;
+            height: 1.9px;
+           
+            border-radius: 50%;
+            transition: all 0.5s linear;
+            transform: scalex(0);
+
+        }
+        #a:hover::after{
+            transform:scalex(1)
+        }
+        
+            
+
+    
+        
 
       
       
@@ -156,6 +183,7 @@
             padding: 10px;
             text-align: center;
             position: relative;
+            transition: box-shadow 0.3s ease;
         }
 
         .product-item img {
@@ -163,7 +191,22 @@
             height: auto;
             border-radius: 10px;
             opacity: 0.7;
+            transition: all;
+            transition-duration: 2s;
+            transition-property: linear;
+            
         }
+    
+      
+       
+      
+    
+    .product-item:hover{
+        box-shadow:  5px 5px 100px 10px rgb(78, 202, 78) ;
+        transform: scale(1.2);
+        margin:10px;
+       
+    }
 
         .product-checkbox {
             position: absolute;
@@ -171,6 +214,7 @@
             right: 10px;
             cursor: pointer;
         }
+    
 
         .order-button {
             background-color: #fff;
@@ -196,6 +240,7 @@
             border-radius: 50px;
             padding: 10px 20px;
             display: inline-block; /* Adjusted to inline-block */
+            transition: all 0.2s linear;
         }
 
         .article-grid {
@@ -259,6 +304,10 @@
             header h1 {
                 font-size: 32px; /* Increase font size for desktop */
             }
+            #h1l:hover{
+                transform: scale(1.2);
+   
+            }
         }
 
         /* Product Slider Arrows */
@@ -294,11 +343,11 @@
                     <div></div>
                 </div>
                 <ul>
-                    <li><a href="/index.html" target="_blank">Home</a></li>
-                    <li><a href="#" onclick="toggleOrderButton()">Place Order</a></li>
-                    <li><a href="https://www.instagram.com/cardamom_and_more/" target="_blank">Instagram</a></li>
-                    <li><a href="maining ratng page.html" target="_blank">Rate us</a></li>
-                    <li><a href="#" onclick="toggleAccountTab()">Account</a></li>
+                    <li><a id="a" href="/index.html" target="_blank">Home</a></li>
+                    <li><a id="a" href="#" onclick="toggleOrderButton()">Place Order</a></li>
+                    <li><a id="a" href="https://www.instagram.com/cardamom_and_more/" target="_blank">Instagram</a></li>
+                    <li><a id="a" href="maining ratng page.html" target="_blank">Rate us</a></li>
+                    <li><a id="a" href="#" onclick="toggleAccountTab()">Account</a></li>
                 </ul>
             </nav>
             <!-- Account Tab -->
@@ -320,17 +369,15 @@
         <h1>Our Products!</h1>
         <div class="product-grid">
             <label><div class="product-item" onclick="selectProduct(this)">
-                <img src="haper11111.jpg" alt="Product 1" class="product-photo">
                 <img src="hamper 2........jpg" alt="Product 1" class="product-photo" style="display: none;">
                 <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
                 <h3>Gift Hamper</h3>
                 <p>contact for price</p>
                 <!-- Arrow buttons -->
-                <div class="arrow left" onclick="prevPhoto(event)">&#10094;</div>
-                <div class="arrow right" onclick="nextPhoto(event)">&#10095;</div>
+                
             </div></label>
             <label><div class="product-item">
-                <img src="#" alt="Product 2">
+                <img id="product-image" src="#" alt="Product 2">
                 <input type="checkbox" class="product-checkbox" onchange="toggleOrderButton()">
                 <h3>Cardamom</h3>
                 <p>175rs(50gms)</p>
@@ -389,7 +436,7 @@
 
     <!-- Articles Section -->
     <div class="articles">
-        <h1>LEARN WITH CARDAMOM</h1>
+        <h1 id="h1l"> LEARN WITH CARDAMOM</h1>
         <div class="article-grid">
             <div class="article-item">
                 <img src="pic1.png" alt="Article 1" style="opacity: 1;">
